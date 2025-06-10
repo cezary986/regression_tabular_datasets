@@ -6,7 +6,7 @@ _BASE_URL = (
     "https://github.com/cezary986/regression_tabular_datasets/raw/refs/heads/main"
 )
 _LABEL_COLUMN = "class"
-DATASETS_NAME: list[str] = [
+AVAILABLE_DATASETS: list[str] = [
     "diabetes",
     "gascons",
     "elusage",
@@ -57,8 +57,8 @@ def read_full_dataset(dataset_name: str) -> tuple[pd.DataFrame, pd.Series]:
     Example:
         >>> X, y = read_full_dataset("diabetes")
     """
-    if dataset_name not in DATASETS_NAME:
-        raise ValueError(f"dataset_name must be one of [{', '.join(DATASETS_NAME)}]")
+    if dataset_name not in AVAILABLE_DATASETS:
+        raise ValueError(f"dataset_name must be one of [{', '.join(AVAILABLE_DATASETS)}]")
     df = pd.read_parquet(f"{_BASE_URL}/{dataset_name}/{dataset_name}.parquet")
     X, y = df.drop(_LABEL_COLUMN, axis=1), df[_LABEL_COLUMN]
     return X, y
@@ -91,8 +91,8 @@ def read_dataset_train_test(
         >>>    "diabetes", cv_fold=3
         >>> )
     """
-    if dataset_name not in DATASETS_NAME:
-        raise ValueError(f"dataset_name must be one of [{', '.join(DATASETS_NAME)}]")
+    if dataset_name not in AVAILABLE_DATASETS:
+        raise ValueError(f"dataset_name must be one of [{', '.join(AVAILABLE_DATASETS)}]")
     if cv_fold is None:
         df_train = pd.read_parquet(
             f"{_BASE_URL}/{dataset_name}/train_test/train.parquet"
