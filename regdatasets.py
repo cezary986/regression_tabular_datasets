@@ -59,7 +59,9 @@ def read_full_dataset(dataset_name: str) -> tuple[pd.DataFrame, pd.Series]:
     """
     if dataset_name not in DATASETS_NAME:
         raise ValueError(f"dataset_name must be one of [{', '.join(DATASETS_NAME)}]")
-    return pd.read_parquet(f"{_BASE_URL}/{dataset_name}/{dataset_name}.parquet")
+    df = pd.read_parquet(f"{_BASE_URL}/{dataset_name}/{dataset_name}.parquet")
+    X, y = df.drop(_LABEL_COLUMN, axis=1), df[_LABEL_COLUMN]
+    return X, y
 
 
 def read_dataset_train_test(
